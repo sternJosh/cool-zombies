@@ -17,17 +17,20 @@ public abstract class CharacterClass : MonoBehaviour {
 	private int str;
 	
 	//skills
+	/* should be implemented in a subclass
 	private int longGun;
 	private int handGun;
 	private int bows;
 	private int climb;
 	private int acrobatics;
+	*/
 	//etc...
 	
 	//feats
+	/* should be implemented in a subclass
 	private bool fastMove; //for example...
 	private bool headHunter;
-	
+	*/
 	//empty constructor
 	public CharacterClass()
 	{
