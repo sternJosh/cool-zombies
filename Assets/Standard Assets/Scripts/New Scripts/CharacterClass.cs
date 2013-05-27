@@ -49,4 +49,86 @@ public abstract class CharacterClass : MonoBehaviour {
 		
 	}
 	
+	//getters
 	
+	public int getHP()
+	{
+		return hitPoints;	
+	}
+	
+	public int getVP()
+	{
+		return vitPoints;
+	}
+	
+	public int getInt()
+	{
+		return intel;	
+	}
+	
+	public int getComp()
+	{
+		return composure;
+	}
+	
+	public int getDex()
+	{
+		return dex;	
+	}
+	
+	public int getCon()
+	{
+		return con;	
+	}
+	
+	public int getPerc()
+	{
+		return perc;	
+	}
+	
+	public int getStr()
+	{
+		return str;	
+	}
+	
+	//setters
+	
+	public void setHP(int hp)
+	{
+		hitPoints = hp;
+	}
+	
+	public void setVP(int vp)
+	{
+		vitPoints = vp;	
+	}
+	
+	public void setInt(int i)
+	{
+		intel = i;	
+	}
+	
+	public void setComp(int comp)
+	{
+		composure = comp;	
+	}
+	
+	public void setDex(int d)
+	{
+		dex = do;	
+	}
+	
+	public void setCon(int c)
+	{
+		con = c;	
+	}
+	
+	public void setPerc(int p)
+	{
+		perc = p;	
+	}
+	
+	public void getStr(int s)
+	{
+		str = s;	
+	}
