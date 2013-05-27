@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class CharacterClass : MonoBehaviour {
+public abstract class CharacterClass : MonoBehaviour {
 	
 	//hit points and vit points
 	private int hitPoints;
@@ -27,3 +27,23 @@ public class CharacterClass : MonoBehaviour {
 	//feats
 	private bool fastMove; //for example...
 	private bool headHunter;
+	
+	//empty constructor
+	public CharacterClass()
+	{
+		
+	}
+	
+	//move the character to a new point on the grid
+	private void move()
+	{
+		
+	}
+	
+	//the character dies
+	private void die()
+	{
+		
+	}
+	
+	
