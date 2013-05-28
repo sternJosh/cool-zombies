@@ -3,9 +3,14 @@ using System.Collections;
 
 public abstract class CharacterClass : MonoBehaviour {
 	
+	private string name;
+	
 	//hit points and vit points
 	private int hitPoints;
 	private int vitPoints;
+	
+	//defense score. This is mostly a placeholder for the purposes of testing.
+	private int defense;
 	
 	//attributes
 	
@@ -46,10 +51,15 @@ public abstract class CharacterClass : MonoBehaviour {
 	//the character dies
 	private void die()
 	{
-		
+		print (name + " has died.");
 	}
 	
 	//getters
+	
+	public string getName()
+	{
+		return name;	
+	}
 	
 	public int getHP()
 	{
@@ -91,7 +101,17 @@ public abstract class CharacterClass : MonoBehaviour {
 		return str;	
 	}
 	
+	public int getDefense()
+	{
+		return defense;	
+	}
+	
 	//setters
+	
+	public void setName(string n)
+	{
+		name = n;	
+	}
 	
 	public void setHP(int hp)
 	{
@@ -115,7 +135,7 @@ public abstract class CharacterClass : MonoBehaviour {
 	
 	public void setDex(int d)
 	{
-		dex = do;	
+		dex = d;	
 	}
 	
 	public void setCon(int c)
@@ -128,7 +148,41 @@ public abstract class CharacterClass : MonoBehaviour {
 		perc = p;	
 	}
 	
-	public void getStr(int s)
+	public void setStr(int s)
 	{
 		str = s;	
 	}
+	
+	public void setDefense(int d)
+	{
+		defense = d;	
+	}
+	
+	
+	//Decide whether an attack hits, and if it does, take the damage.
+	//If the damage is enough to kill the character, go ahead and die.
+	public void receiveAttack(int attack, int dmg)
+	{
+		if (attack >= this.defense) //hit
+		{
+			//deplete hitpoints first. Right?
+			if (hitPoints >= dmg)
+			{
+				hitPoints -= dmg;	
+			}
+			else if (hitPoints < dmg) //not enough hit points to absorb full damage
+			{	
+					dmg -= hitPoints;
+					hitPoints = 0;
+					if (vitPoints > dmg) //not going to die yet
+					{
+						vitPoints -= dmg;	
+					}
+					else //the attack did enough damage to kill the target
+					{
+						this.die ();	
+					}
+			}
+		}
+	}
+}
