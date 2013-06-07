@@ -4,7 +4,6 @@ using System.Collections;
 public class Gun : Weapon {
 	
 	//statistics
-	private int range;
 	private bool isLong;
 	private bool isHand;
 	
@@ -25,11 +24,7 @@ public class Gun : Weapon {
 	 **************/
 	
 	//getters
-	public int getRange()
-	{
-		return range;	
-	}
-	
+
 	public bool getLong()
 	{
 		return isLong;	
@@ -41,10 +36,6 @@ public class Gun : Weapon {
 	}
 	
 	//setters
-	public void setRange(int r)
-	{
-		range = r;	
-	}
 	
 	public void setIsLong(bool l)
 	{

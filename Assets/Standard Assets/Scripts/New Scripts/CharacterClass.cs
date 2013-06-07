@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public abstract class CharacterClass : MonoBehaviour {
+public class CharacterClass : MonoBehaviour {
 	
-	private string name;
-	
+	private string charName;
+	private int x;
+	private int y;
 	//hit points and vit points
 	private int hitPoints;
 	private int vitPoints;
@@ -37,28 +38,46 @@ public abstract class CharacterClass : MonoBehaviour {
 	private bool headHunter;
 	*/
 	//empty constructor
+	
+	private int movement;
+	
 	public CharacterClass()
 	{
 		
 	}
 	
 	//move the character to a new point on the grid
-	private void move()
+	public virtual IEnumerator move()
 	{
-		
+		yield return null;
 	}
 	
 	//the character dies
 	private void die()
 	{
-		print (name + " has died.");
+		print (charName + " has died.");
 	}
 	
 	//getters
 	
+	public int getMovement()
+	{
+		return movement;	
+	}
+	
+	public int getX()
+	{
+		return x;	
+	}
+	
+	public int getY()
+	{
+		return y;	
+	}
+	
 	public string getName()
 	{
-		return name;	
+		return charName;	
 	}
 	
 	public int getHP()
@@ -108,9 +127,24 @@ public abstract class CharacterClass : MonoBehaviour {
 	
 	//setters
 	
+	public void setMovement(int m)
+	{
+		movement = m;	
+	}
+	
+	public void setX(int x)
+	{
+		this.x = x;	
+	}
+	
+	public void setY(int y)
+	{
+		this.y = y;	
+	}
+	
 	public void setName(string n)
 	{
-		name = n;	
+		charName = n;	
 	}
 	
 	public void setHP(int hp)
@@ -184,5 +218,60 @@ public abstract class CharacterClass : MonoBehaviour {
 					}
 			}
 		}
+	}
+	
+	IEnumerator startTurn()
+	{
+		yield return null;
+	}
+	
+	public virtual IEnumerator drawMenu()
+	{
+		yield return null;
+	}
+	
+	public virtual void doAThing()
+	{
+		print ("is this the one?");
+	}
+	
+	public virtual CharacterClass[] findTargets(CharacterClass[] targets)
+	{
+		return targets;
+	}
+	
+	public Tile[] findReachableTiles()
+	{
+		int mapX = GameController.controller.mapX;
+		int mapY = GameController.controller.mapY;
+		Tile[] reachable = new Tile[mapX * mapY];
+		print (mapX);
+		print (mapY);
+		int count = 0;
+		//this is such a stupid algorithm. it will be made less stupid at a later date.
+		//also, this doesn't account for impassable terrain. so the real algorithm will have to be much more sophisticated.
+		for (int i = 0; i < mapX; i++)
+		{
+			print ("get into loop at all?");
+			for (int j = 0; j < mapY; j++)
+			{
+				print ("checking a tile");
+				int sqrX = (x - i) * (x - i);
+				int sqrY = (y - j) * (y - j);
+				//the below formula isn't quite right.
+				if (Mathf.Sqrt(sqrX + sqrY) <= movement) //tile is within movement range. should mark as reachable
+				{
+					print ("found a reachable tile");
+					reachable[count] = GameController.controller.map[i, j];
+					count++;
+				}
+				else
+				{
+					print ("tile wasn't reachable");
+				}		
+			}
+		}
+		print (count);
+		return reachable;
 	}
 }

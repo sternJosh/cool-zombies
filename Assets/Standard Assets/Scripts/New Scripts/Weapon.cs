@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public abstract class Weapon : MonoBehaviour {
+public class Weapon : MonoBehaviour {
 	
 	private int ID;
 	
@@ -10,6 +10,7 @@ public abstract class Weapon : MonoBehaviour {
 	private int minDmg;
 	private int weight;
 	private int baseAccuracy;
+	private int range;
 	
 	//empty constructor
 	public Weapon()
@@ -22,6 +23,11 @@ public abstract class Weapon : MonoBehaviour {
 	 *************/
 	
 	//getters
+	public int getRange()
+	{
+		return range;	
+	}
+	
 	public int getID()
 	{
 		return ID;	
@@ -48,6 +54,11 @@ public abstract class Weapon : MonoBehaviour {
 	}
 	
 	//setters
+	public void setRange(int r)
+	{
+		range = r;	
+	}
+	
 	public void setID(int id)
 	{
 		ID = id;	

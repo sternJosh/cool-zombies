@@ -3,7 +3,9 @@ using System.Collections;
 
 
 
-public abstract class Human : CharacterClass {
+public class Human : CharacterClass {
+	
+	public static readonly int numFeats;
 	
 	/**********
 	 *  STATS *
@@ -16,8 +18,7 @@ public abstract class Human : CharacterClass {
 	private int acrobatics;
 	
 	//feats
-	private bool fastMove; //for example...
-	private bool headHunter;
+	private bool[] feats;
 	
 	//equipment
 	/*
@@ -64,7 +65,7 @@ public abstract class Human : CharacterClass {
 	{
 		return acrobatics;	
 	}
-	
+	/*
 	public bool hasFastMove()
 	{
 		return fastMove;	
@@ -73,6 +74,17 @@ public abstract class Human : CharacterClass {
 	public bool hasHeadHunter()
 	{
 		return headHunter;	
+	}
+	*/
+	
+	public bool readFeats(int featID)
+	{
+		return feats[featID];	
+	}
+	
+	public bool[] getFeats()
+	{
+		return feats;	
 	}
 	
 	public int getWeight()
@@ -83,6 +95,11 @@ public abstract class Human : CharacterClass {
 	public int getCapacity()
 	{
 		return capacity;	
+	}
+	
+	public Weapon getWeapon()
+	{	
+		return equippedWeapon;
 	}
 	
 	//setters
@@ -111,7 +128,7 @@ public abstract class Human : CharacterClass {
 	{
 		acrobatics = a;	
 	}
-	
+	/*
 	public void setFastMove(bool fm)
 	{
 		fastMove = fm;	
@@ -120,6 +137,11 @@ public abstract class Human : CharacterClass {
 	public void setHeadHunter(bool hh)
 	{
 		headHunter = hh;	
+	}
+	*/
+	public void setFeat(int ID, bool value)
+	{
+		feats[ID] = value;	
 	}
 	
 	public void setWeight(int w)
@@ -130,6 +152,12 @@ public abstract class Human : CharacterClass {
 	public void setCapacity(int c)
 	{
 		capacity = c;	
+	}
+	
+	//this should be handled differently later on
+	public void setWeapon(Weapon wep)
+	{
+		equippedWeapon = wep;	
 	}
 	
 	
@@ -153,5 +181,44 @@ public abstract class Human : CharacterClass {
 		
 		target.receiveAttack(attack, dmg);
 			
+	}
+	
+	public override CharacterClass[] findTargets(CharacterClass[] targets)
+	{
+		print("trying to find targets");
+		int j = 0;
+		int thisX = this.getX ();
+		int thisY = this.getY ();
+		for (int i = 0; i < GameController.controller.numChars; i++)
+		{
+			
+		CharacterClass ch = GameController.controller.chars[i];
+			if (ch != this) //since this character is in the array, we need to make sure we don't try to shoot ourself.
+			{
+				int targX = ch.getX ();
+				int targY = ch.getY ();
+				int sqrDifX = (targX - thisX) * (targX - thisX);
+				int sqrDifY = (targY - thisY) * (targY - thisY);
+				//the below formula isn't quite right
+				if (Mathf.Sqrt ((sqrDifX + sqrDifY)) <= getWeapon ().getRange ()) //the character is within range
+				{
+					targets[j] = ch;
+					j++;
+					print ("Found a seemingly valid target");
+				}
+				else 
+				{
+					print ("This target is invalid for one reason or another");	
+				}
+			}
+			else 
+			{
+				print ("you can't shoot yourself, now can you?");	
+			}
+		}
+		return targets;
+		
+		
+		
 	}
 }

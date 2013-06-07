@@ -3,12 +3,18 @@ using System.Collections;
 
 public class GameController : MonoBehaviour {
 	
+	public Transform mapTile;
 	public static GameController controller;
 	public PlayerCharacter[] PCs;
 	public Zombie[] Zs;
 	public CharacterClass[] chars;
 	public int turn;
+	public Tile[,] map;
+	public int numChars;
 	
+	//the dimensions
+	public int mapX;   
+	public int mapY;
 	
 	public PlayerCharacter pc;
 	public Zombie z;
@@ -24,12 +30,42 @@ public class GameController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		//controller = this;
+		
+		//load(map, "mapLocationGoesHere");
+		//i think eventually we'll load this from a file and generate the map from the array
+		mapX = 10; 
+		mapY = 10;
+		map = new Tile[mapX, mapY];
+		for (int i = 0; i < mapX; i++)
+		{
+			for(int j = 0; j < mapY; j++)
+			{
+				
+				print ("before instantiation");
+				mapTile = (Transform)Instantiate (mapTile, new Vector3(i, 0, j), Quaternion.identity);
+				Tile theTile = mapTile.GetComponent ("Tile") as Tile;
+				theTile.x = i;
+				theTile.y = j;
+				map[i, j] = theTile;
+				print ("after instantiation");
+			}
+		}
+		
 		turn = 0;
+		
 		P1 = GameObject.Find ("P1");
 		Z1 = GameObject.Find ("Z1");
 		pc = P1.AddComponent("PlayerCharacter") as PlayerCharacter;
 		z = Z1.AddComponent ("Zombie") as Zombie;
+		
+		//you wouldn't normally hard code these, of course
+		pc.setX (0);
+		pc.setY (0);
+		z.setX (3);
+		z.setY (3);
+		Gun g = new Gun();
+		pc.setWeapon (g);
+		
 		PCs = new PlayerCharacter[4];
 		Zs = new Zombie[4];
 		chars = new CharacterClass[2];
@@ -37,6 +73,7 @@ public class GameController : MonoBehaviour {
 		Zs[0] = z;
 		chars[0] = pc;
 		chars[1] = z;
+		numChars = 2;
 		
 		StartCoroutine (GameManager());
 		
@@ -50,11 +87,11 @@ public class GameController : MonoBehaviour {
 		{
 			
 		currentChar = c;
-		
-		StartCoroutine (characterTurn(c));
+		print (currentChar.getName () + " is the currentChar");
+		yield return StartCoroutine (characterTurn(c));
 		
 		}
-		yield return null;
+		
 		
 	}
 	
@@ -63,9 +100,8 @@ public class GameController : MonoBehaviour {
 		if (c is PlayerCharacter)
 		{
 			print (c.getName () + "'s turn");	
-			StartCoroutine(c.drawMenu());
-			print ("is this getting executed?");
-			yield return null;	
+			yield return StartCoroutine(c.drawMenu());
+				
 		}
 			
 		yield return null;
@@ -73,32 +109,7 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		/*
-		if (turn % 2 == 0) //even numbered turn, player goes
-		{
-			print ("even numbered turn");
-			for (int i = 0; i < PCs.Length; i++)
-			{
-				if (PCs[i] != null)
-				{	
-					PCs[i].startTurn ();	
-				}
-			}
-			turn++;
-		}
-		else 
-		{
-			print ("odd numbered turn");
-			for (int i = 0; i < Zs.Length; i++)
-			{
-				if (Zs[i] != null)
-				{
-					Zs[i].startTurn();
-				}
-			}
-			turn++;
-		}
-		*/
+		
 	}
 	
 }
