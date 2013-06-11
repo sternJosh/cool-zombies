@@ -4,8 +4,7 @@ using System.Collections;
 public class CharacterClass : MonoBehaviour {
 	
 	private string charName;
-	private int x;
-	private int y;
+	private Tile location;
 	//hit points and vit points
 	private int hitPoints;
 	private int vitPoints;
@@ -47,7 +46,7 @@ public class CharacterClass : MonoBehaviour {
 	}
 	
 	//move the character to a new point on the grid
-	public virtual IEnumerator move()
+	public virtual IEnumerator move(Tile target)
 	{
 		yield return null;
 	}
@@ -65,15 +64,11 @@ public class CharacterClass : MonoBehaviour {
 		return movement;	
 	}
 	
-	public int getX()
+	public Tile getLocation()
 	{
-		return x;	
+		return location;	
 	}
 	
-	public int getY()
-	{
-		return y;	
-	}
 	
 	public string getName()
 	{
@@ -132,14 +127,9 @@ public class CharacterClass : MonoBehaviour {
 		movement = m;	
 	}
 	
-	public void setX(int x)
+	public void setLocation(Tile loc)
 	{
-		this.x = x;	
-	}
-	
-	public void setY(int y)
-	{
-		this.y = y;	
+		location = loc;	
 	}
 	
 	public void setName(string n)
@@ -242,6 +232,9 @@ public class CharacterClass : MonoBehaviour {
 	
 	public Tile[] findReachableTiles()
 	{
+		int x = getLocation ().x;
+		int y = getLocation ().y;
+		
 		int mapX = GameController.controller.mapX;
 		int mapY = GameController.controller.mapY;
 		Tile[] reachable = new Tile[mapX * mapY];
@@ -273,5 +266,10 @@ public class CharacterClass : MonoBehaviour {
 		}
 		print (count);
 		return reachable;
+	}
+	
+	public virtual void shoot(CharacterClass target)
+	{
+		
 	}
 }

@@ -164,7 +164,7 @@ public class Human : CharacterClass {
 	
 	//use the currently equipped gun to damage an enemy within range
 	//I think this should only be called after we've already verified that the target is valid, in range, all that stuff
-	public void shoot(CharacterClass target)
+	public override void shoot(CharacterClass target)
 	{
 		//All of the formulas for generating the numbers here are certainly subject to change.
 		//These are just quick and easy formulas so that we can have something to test with
@@ -183,20 +183,21 @@ public class Human : CharacterClass {
 			
 	}
 	
+	
 	public override CharacterClass[] findTargets(CharacterClass[] targets)
 	{
 		print("trying to find targets");
 		int j = 0;
-		int thisX = this.getX ();
-		int thisY = this.getY ();
+		int thisX = this.getLocation().x; 
+		int thisY = this.getLocation().y;
 		for (int i = 0; i < GameController.controller.numChars; i++)
 		{
 			
 		CharacterClass ch = GameController.controller.chars[i];
 			if (ch != this) //since this character is in the array, we need to make sure we don't try to shoot ourself.
 			{
-				int targX = ch.getX ();
-				int targY = ch.getY ();
+				int targX = ch.getLocation().x;
+				int targY = ch.getLocation().y;
 				int sqrDifX = (targX - thisX) * (targX - thisX);
 				int sqrDifY = (targY - thisY) * (targY - thisY);
 				//the below formula isn't quite right

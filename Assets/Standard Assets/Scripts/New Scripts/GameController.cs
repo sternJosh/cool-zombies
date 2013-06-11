@@ -59,10 +59,9 @@ public class GameController : MonoBehaviour {
 		z = Z1.AddComponent ("Zombie") as Zombie;
 		
 		//you wouldn't normally hard code these, of course
-		pc.setX (0);
-		pc.setY (0);
-		z.setX (3);
-		z.setY (3);
+		pc.setLocation (map[0, 0]);
+		z.setLocation (map[3,3]);
+
 		Gun g = new Gun();
 		pc.setWeapon (g);
 		
@@ -91,12 +90,15 @@ public class GameController : MonoBehaviour {
 		yield return StartCoroutine (characterTurn(c));
 		
 		}
+		turn++;
 		
 		
 	}
 	
 	IEnumerator characterTurn(CharacterClass c)
 	{
+		
+		//actually, this shouldn't be an if statement. just override the functions differently for enemies and PCs
 		if (c is PlayerCharacter)
 		{
 			print (c.getName () + "'s turn");	

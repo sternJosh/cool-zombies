@@ -69,10 +69,10 @@ public class PlayerCharacter : Human {
 		//print ("removed the action menu");
 	}
 	
-	public override IEnumerator move()
-	{
-		yield return null;
-	}
+	//public override IEnumerator move()
+	//{
+//		yield return null;
+	//}
 	
 	
 		
