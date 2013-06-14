@@ -6,25 +6,31 @@ public class PCActionMenu : MonoBehaviour {
 	public static PCActionMenu menu;
 	
 	//these all get set from the Tile class when it gets selected
-	public string selector = "default";
+	public string selector;
 	public Tile currentTile;
 	public CharacterClass targetCharacter;
+	
+	int count = 0;
 	
 	public CharacterClass[] targets;
 	public Tile[] reachable;
 	
 	void Awake()
 	{
-		menu = this;	
+		menu = this;
+	}
+	
+	void Start()
+	{
+		selector = "";	
 	}
 	
 	void  OnGUI() {
-		if (selector == "")
-		{
-			//do nothing	
-		}
+		//print ("selector = " + selector + " number: " + count);
+		count++;
 		
-		else if (selector == "default")
+		
+		if (selector == "")
 		{
 			GUI.Box (new Rect(10, 10, 100, 100), "Action Menu");
 			if(GUI.Button (new Rect(22.5F, 35, 75, 15), "Move"))
@@ -45,23 +51,23 @@ public class PCActionMenu : MonoBehaviour {
 		
 		else if(selector == "displayReachable")
 		{
-			print ("display reachable?");
+			//print ("display reachable?");
 			GUI.Box (new Rect(10, 10, 155, 150), "Select a tile to move to");
 			if(GUI.Button (new Rect(22.5F, 35, 135, 15), "Cancel Move Action"))
 			{
 				unMarkTiles(reachable);
-				selector = "default";	
+				selector = "";	
 			}
 		}
 		
 		else if(selector == "displayTargets")
 		{
-			print("display targets?");
+			//print("display targets?");
 			GUI.Box (new Rect(10, 10, 155, 150), "Select an enemy to attack");
 			if(GUI.Button (new Rect(22.5F, 35, 135, 15), "Cancel Attack Action"))
 			{
 				unMarkTargets(targets);
-				selector = "default";	
+				selector = "";	
 			}
 		}
 		
@@ -70,11 +76,12 @@ public class PCActionMenu : MonoBehaviour {
 			GUI.Box(new Rect(150, 10, 100, 100), "Move to this location?");
 				if(GUI.Button (new Rect(162.5F, 55, 75, 15), "Confirm"))
 				{
-					GameController.controller.currentChar.move (currentTile);	
+					GameController.controller.currentChar.move (currentTile);
+					
 				}
 				if(GUI.Button (new Rect(162.5F, 75, 75, 15), "Cancel"))
 				{
-					selector = "default";	
+					selector = "";	
 				}
 		}
 		
@@ -83,11 +90,12 @@ public class PCActionMenu : MonoBehaviour {
 			GUI.Box(new Rect(150, 10, 100, 100), "Attack this target?");
 				if(GUI.Button (new Rect(162.5F, 55, 75, 15), "Confirm"))
 				{
+					
 					GameController.controller.currentChar.shoot (targetCharacter);	
 				}
 				if(GUI.Button (new Rect(162.5F, 75, 75, 15), "Cancel"))
 				{
-					selector = "default";	
+					selector = "";	
 				}
 		}
 	}
@@ -136,7 +144,7 @@ public class PCActionMenu : MonoBehaviour {
 			if (tiles[i] != null)
 			{
 				Tile theTile = tiles[i];
-				theTile.transform.renderer.material.color = Color.grey;
+				theTile.transform.renderer.material.color = Color.white;
 			}
 			else
 			{
@@ -150,7 +158,7 @@ public class PCActionMenu : MonoBehaviour {
 		for (int i = 0; i < targets.Length - 1; i++)
 		{
 			Tile theTile = targets[i].getLocation ();
-			theTile.transform.renderer.material.color = Color.grey;
+			theTile.transform.renderer.material.color = Color.white;
 		}
 	}
 	

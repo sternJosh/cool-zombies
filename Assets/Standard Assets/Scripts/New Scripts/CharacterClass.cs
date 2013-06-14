@@ -4,7 +4,7 @@ using System.Collections;
 public class CharacterClass : MonoBehaviour {
 	
 	private string charName;
-	private Tile location;
+	public Tile location;
 	//hit points and vit points
 	private int hitPoints;
 	private int vitPoints;
@@ -46,15 +46,17 @@ public class CharacterClass : MonoBehaviour {
 	}
 	
 	//move the character to a new point on the grid
-	public virtual IEnumerator move(Tile target)
+	//assumes the tile has already been confirmed as valid
+	public virtual void move(Tile target)
 	{
-		yield return null;
+		setLocation (target);
 	}
 	
 	//the character dies
 	private void die()
 	{
 		print (charName + " has died.");
+		GameController.controller.removeCharacter (this);
 	}
 	
 	//getters
@@ -189,10 +191,12 @@ public class CharacterClass : MonoBehaviour {
 	{
 		if (attack >= this.defense) //hit
 		{
+			print (getName () + " just got hit. ouch");
 			//deplete hitpoints first. Right?
 			if (hitPoints >= dmg)
 			{
 				hitPoints -= dmg;	
+				print (getName () + " now has " + getHP () + " HP remaining");
 			}
 			else if (hitPoints < dmg) //not enough hit points to absorb full damage
 			{	
@@ -200,13 +204,18 @@ public class CharacterClass : MonoBehaviour {
 					hitPoints = 0;
 					if (vitPoints > dmg) //not going to die yet
 					{
-						vitPoints -= dmg;	
+						vitPoints -= dmg;
+						print (getName () + " now has " + getVP () + " VP remaining");
 					}
 					else //the attack did enough damage to kill the target
 					{
 						this.die ();	
 					}
 			}
+		}
+		else
+		{
+			print(getName() + " avoided an attack");	
 		}
 	}
 	
